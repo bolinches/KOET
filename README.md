@@ -14,7 +14,7 @@ Remarks:
   - fping must be installed on all nodes that participate in the test (it does check it)
   - SSH root passwordless access must be possible from the node that runs the tool to all the nodes that participate in the test (it does check it)
   - The minimum FPING_COUNT value for a valid test must be 500 (by default is 500 already)
-  - The test is intended for hosts that will belong to the same recovery group, so the number of hosts has to be between 4 and 32 (included)
+  - The test is intended for hosts between 4 and 32 (included)
   - It generates a log directory with all the raw data output for future comparisons (not implemented yet)
   - It returns 0 if all tests are passed in all nodes, it returns an integer > 0 if any number of errors
 
