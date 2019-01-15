@@ -3,7 +3,7 @@
 
 This runs a network fping tests across multiple nodes 1:1 and 1:n to obtain the mean average for all the nodes involved and compares it against a KPI.
 
-**You need to populate the hosts.json file with the IP addresses of the nodes to participate. Names are not allowed. This is to force certain interface on multiple interfaces hosts.**
+**You need to populate the hosts.json file with the IP addresses of the nodes to participate. Names are not allowed.**
 
 It requires a long time to run, depending on the number of nodes. The tool estimates a runtime at startup.
 
