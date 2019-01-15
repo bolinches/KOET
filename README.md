@@ -1,11 +1,11 @@
+# KOET README
+
 
 This runs a network fping tests across multiple nodes 1:1 and 1:n to obtain the mean average for all the nodes involved and compares it against a KPI.
 
-It requires a long time to run, depending on the number of nodes. It tells you an estimation of runtime at startup.
+**You need to populate the hosts.json file with the IP addresses of the nodes to participate. Names are not allowed. This is to force certain interface on multiple interfaces hosts.**
 
-The hosts.json file needs to be manually populated, at this point the host number is not used but needs to be also populated. Only IP addresses can be used.
-
-NOTE: You need to populate the hosts.json file with the IP addresses of the nodes to participate. Names are not allowed. This is to force certain interface on multiple interfaces hosts.
+It requires a long time to run, depending on the number of nodes. The tool estimates a runtime at startup.
 
 Remarks:
   - Runs on RedHat 7.5/7.6 and CentOS 7.5/7.6 on ppc64le, ppc64 and x86_64
@@ -14,7 +14,7 @@ Remarks:
   - fping must be installed on all nodes that participate in the test (it does check it)
   - SSH root passwordless access must be possible from the node that runs the tool to all the nodes that participate in the test (it does check it)
   - The minimum FPING_COUNT value for a valid test must be 500 (by default is 500 already)
-  - The test is intended for hosts between 4 and 32 (included)
+  - The toll run on a number of hosts between 4 and 32 (included)
   - It generates a log directory with all the raw data output for future comparisons (not implemented yet)
   - It returns 0 if all tests are passed in all nodes, it returns an integer > 0 if any number of errors
 
