@@ -38,7 +38,7 @@ An output example:
 ```
 # ./koet.py
 
-Welcome to KOET, version 1.6
+Welcome to KOET, version 1.7
 
 JSON files versions:
         supported OS:           1.0
@@ -88,8 +88,9 @@ This software comes with absolutely no warranty of any kind. Use it at your own 
 Do you want to continue? (y/n): y
 ```
 
+A succesful run within the KPI range of test requirements and results, would look similar to the below output:
 ```
-OK: CentOS Linux 7.5.1804 is a supported OS for this tool
+OK: Red Hat Enterprise Linux Server 7.6 is a supported OS for this tool
 
 OK: SSH with node 10.10.16.17 works
 OK: SSH with node 10.10.16.16 works
@@ -367,5 +368,6 @@ The summary of this run:
         The 1:1 fping latency was successful in all nodes
         The 1:n fping average latency was successful in all nodes
 
-OK: All tests had been passed. You can proceed with the next steps
+OK: All tests had been passed
+OK: You can proceed with the next steps
 ```

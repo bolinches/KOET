@@ -30,7 +30,7 @@ GIT_URL = "https://github.com/bolinches/KOET"
 DEVNULL = open(os.devnull, 'w')
 
 # This script version, independent from the JSON versions
-KOET_VERSION = "1.6"
+KOET_VERSION = "1.7"
 
 
 def load_json(json_file_str):
@@ -89,11 +89,7 @@ def parse_arguments():
                  "fping count cannot be zero or negative number\n")
     return round(args.max_avg_latency, 2), args.fping_count
 
-
-def show_header(koet_h_version, json_version,
-                estimated_runtime_str, max_avg_latency, fping_count):
-    # Say hello and give chance to disagree
-
+def check_kpi_is_ok(max_avg_latency, fping_count):
     if max_avg_latency > MAX_AVG_LATENCY:
         latency_kpi_is_good_to_certify = False
     else:
@@ -104,6 +100,11 @@ def show_header(koet_h_version, json_version,
     else:
         fping_count_is_good_to_certify = True
 
+    return latency_kpi_is_good_to_certify,fping_count_is_good_to_certify
+
+def show_header(koet_h_version, json_version,
+                estimated_runtime_str, max_avg_latency, fping_count):
+    # Say hello and give chance to disagree
     while True:
         print
         print(GREEN + "Welcome to KOET, version " + koet_h_version + NOCOLOR)
@@ -119,7 +120,8 @@ def show_header(koet_h_version, json_version,
             "The purpose of KOET is to obtain IPv4 network metrics " +
             "for a number of nodes.")
         print
-        if latency_kpi_is_good_to_certify:
+        lat_kpi_ok, fping_kpi_ok = check_kpi_is_ok(max_avg_latency, fping_count)
+        if lat_kpi_ok:
             print(GREEN + "The latency KPI value of " + str(max_avg_latency) +
                   " msec is good to certify the environment" + NOCOLOR)
         else:
@@ -131,7 +133,7 @@ def show_header(koet_h_version, json_version,
                 str(max_avg_latency) +
                 " msec is too high to certify the environment")
         print
-        if fping_count_is_good_to_certify:
+        if fping_kpi_ok:
             print(
                 GREEN +
                 "The fping count value of " +
@@ -670,16 +672,16 @@ def test_ssh(hosts_dictionary):
     print
 
 
-def print_end_summary(single_avg_fping_errors, all_avg_fping_errors):
+def print_end_summary(s_avg_fp_err, a_avg_fp_err, lat_kpi_ok, fping_kpi_ok):
     # End summary and say goodbye
     passed = True
     print
     print("The summary of this run:")
     print
 
-    if single_avg_fping_errors > 0:
+    if s_avg_fp_err > 0:
         print(RED + "\tThe 1:1 fping latency test failed " +
-              str(single_avg_fping_errors) + " time[s]" + NOCOLOR)
+              str(s_avg_fp_err) + " time[s]" + NOCOLOR)
         passed = False
     else:
         print(
@@ -687,9 +689,9 @@ def print_end_summary(single_avg_fping_errors, all_avg_fping_errors):
             "\tThe 1:1 fping latency was successful in all nodes" +
             NOCOLOR)
 
-    if all_avg_fping_errors > 0:
+    if a_avg_fp_err > 0:
         print(RED + "\tThe 1:n fping  latency test failed " +
-              str(all_avg_fping_errors) + " time[s]" + NOCOLOR)
+              str(a_avg_fp_err) + " time[s]" + NOCOLOR)
         passed = False
     else:
         print(
@@ -703,7 +705,7 @@ def print_end_summary(single_avg_fping_errors, all_avg_fping_errors):
             GREEN +
             "OK: " +
             NOCOLOR +
-            "All tests had been passed. You can proceed with the next steps" +
+            "All tests had been passed" +
             NOCOLOR)
     else:
         print(
@@ -713,9 +715,26 @@ def print_end_summary(single_avg_fping_errors, all_avg_fping_errors):
             "All test must be passed to certify the environment " +
             "to proceed with the next steps" +
             NOCOLOR)
-    print
-    return (single_avg_fping_errors + all_avg_fping_errors)
 
+    if lat_kpi_ok and fping_kpi_ok and passed:
+        print (
+            GREEN +
+            "OK: " +
+            NOCOLOR +
+            "You can proceed with the next steps" +
+            NOCOLOR)
+        valid_test = 0
+    else:
+        print(
+            RED +
+            "ERROR: " +
+            NOCOLOR +
+            "This run is not valid to certify the environment. " +
+            "You cannot proceed with the next steps" +
+            NOCOLOR)
+        valid_test = 5
+    print
+    return (s_avg_fp_err + a_avg_fp_err + valid_test)
 
 def main():
     # Parsing input
@@ -792,9 +811,13 @@ def main():
         max_stddev_latency)
 
     # Exit protocol
+    lat_kpi_ok, fping_kpi_ok = check_kpi_is_ok(max_avg_latency, fping_count)
     DEVNULL.close()
     return_code = print_end_summary(
-        single_avg_fping_errors, all_avg_fping_errors)
+        single_avg_fping_errors,
+        all_avg_fping_errors,
+        lat_kpi_ok,
+        fping_kpi_ok)
     print
     return return_code
 

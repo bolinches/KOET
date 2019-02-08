@@ -30,6 +30,9 @@ Changelog:
     - PEP8 formatting
     - small fixes on messages
 
+- 1.7
+    -Fixed #1 "Add warning on final summary if run is less than KPI requirements"
+
 - TODO:
     - Code optimizations
     - Code clean up
