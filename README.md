@@ -3,7 +3,7 @@
 
 This runs a network fping tests across multiple nodes 1:1 and 1:n to obtain the mean average for all the nodes involved and compares it against a KPI.
 
-**You need to populate the hosts.json file with the IP addresses of the nodes to participate. Names are not allowed.**
+**You need to populate the hosts.json file with the IP addresses of the nodes that participate in the test. Names are not allowed.**
 
 It requires a long time to run, depending on the number of nodes. The tool estimates a runtime at startup.
 
@@ -88,7 +88,7 @@ This software comes with absolutely no warranty of any kind. Use it at your own 
 Do you want to continue? (y/n): y
 ```
 
-A succesful run within the KPI range of test requirements and results, would look similar to the below output:
+A successful run within the KPI range of test requirements and results, would look similar to the below output:
 ```
 OK: Red Hat Enterprise Linux Server 7.6 is a supported OS for this tool
 
