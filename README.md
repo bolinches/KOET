@@ -1,9 +1,6 @@
-# KOET README
-
+#  Network latency check tool
 
 This runs a network fping tests across multiple nodes 1:1 and 1:n to obtain the mean average for all the nodes involved and compares it against a KPI.
-
-**You need to populate the hosts.json file with the IP addresses of the nodes that participate in the test. Names are not allowed.**
 
 It requires a long time to run, depending on the number of nodes. The tool estimates a runtime at startup.
 
@@ -18,7 +15,33 @@ Remarks:
   - It generates a log directory with all the raw data output for future comparisons (not implemented yet)
   - It returns 0 if all tests are passed in all nodes, it returns an integer > 0 if any number of errors
 
-Comes with some help:
+## Prerequisites
+
+The tool `koet.py` has two dependencies.
+
+### Password less ssh between hosts
+
+For password less ssh, the process is simple if you google it. However, there is an automated script at [https://github.com/vikramkhatri/sshsetup](https://github.com/vikramkhatri/sshsetup) that you can use to set up password less ssh.
+
+### Install fping
+
+Check if `fping` is available or not. `which fping`
+
+If `fping` is not install, install it from epel repo.
+
+```
+yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+yum -y install fping
+```
+
+Repeat on all hosts.
+
+### Prepaere hosts.json file 
+
+Edit `hosts.json` with the IP addresses of the nodes that will participate in the test. ** Names are not allowed.**
+
+## Help for the tool
+
 ```
 # ./koet.py -h
 usage: koet.py [-h] [-l KPI_LATENCY] [-c FPING_COUNT] [-v]
@@ -32,9 +55,11 @@ optional arguments:
                         The number of fping counts to run per node and test.
                         The minimum required value for certification is 500
   -v, --version         show program's version number and exit
+An output example:
+
 ```
 
-An output example:
+## Run the tool
 ```
 # ./koet.py
 
