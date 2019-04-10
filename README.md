@@ -34,7 +34,9 @@ yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarc
 yum -y install fping
 ```
 
-Repeat on all hosts.
+Or by other means than RPM package and run the tool with `--no-prerequisites-check`
+
+Either way fping must be installed in all nodes that participate in the test.
 
 ### Prepaere hosts.json file
 
@@ -44,7 +46,8 @@ Edit `hosts.json` with the IP addresses of the nodes that will participate in th
 
 ```
 # ./koet.py -h
-usage: koet.py [-h] [-l KPI_LATENCY] [-c FPING_COUNT] [-v]
+usage: koet.py [-h] [-l KPI_LATENCY] [-c FPING_COUNT]
+               [--no-prerequisites-check] [-v]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -54,8 +57,10 @@ optional arguments:
   -c FPING_COUNT, --fping_count FPING_COUNT
                         The number of fping counts to run per node and test.
                         The minimum required value for certification is 500
+  --no-prerequisites-check
+                        To not run prerequisites checks. Those still needs to
+                        be installed by other means than RPM in all nodes
   -v, --version         show program's version number and exit
-An output example:
 
 ```
 
@@ -63,7 +68,7 @@ An output example:
 ```
 # ./koet.py
 
-Welcome to KOET, version 1.7
+Welcome to KOET, version 1.8
 
 JSON files versions:
         supported OS:           1.0
@@ -90,7 +95,7 @@ At this point you can see the estimated runtime, consider using screen or alike.
 ```
 # ./koet.py -l 1.5 -c 100
 
-Welcome to KOET, version 1.6
+Welcome to KOET, version 1.8
 
 JSON files versions:
         supported OS:           1.0

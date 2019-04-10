@@ -30,7 +30,7 @@ GIT_URL = "https://github.com/bolinches/KOET"
 DEVNULL = open(os.devnull, 'w')
 
 # This script version, independent from the JSON versions
-KOET_VERSION = "1.7"
+KOET_VERSION = "1.8"
 
 
 def load_json(json_file_str):
@@ -78,6 +78,15 @@ def parse_arguments():
         metavar='FPING_COUNT',
         type=int,
         default=500)
+
+    parser.add_argument(
+        '--no-prerequisites-check',
+        action='store_false',
+        dest='check_packages',
+        help='To not run prerequisites checks. Those still needs to be ' +
+        'installed by other means than RPM in all nodes',
+        default=True)
+
     parser.add_argument('-v', '--version', action='version',
                         version='KOET ' + KOET_VERSION)
     args = parser.parse_args()
@@ -87,7 +96,8 @@ def parse_arguments():
     if args.fping_count <= 0:
         sys.exit(RED + "QUIT: " + NOCOLOR +
                  "fping count cannot be zero or negative number\n")
-    return round(args.max_avg_latency, 2), args.fping_count
+    return round(args.max_avg_latency, 2), args.fping_count, args.check_packages
+
 
 def check_kpi_is_ok(max_avg_latency, fping_count):
     if max_avg_latency > MAX_AVG_LATENCY:
@@ -101,6 +111,7 @@ def check_kpi_is_ok(max_avg_latency, fping_count):
         fping_count_is_good_to_certify = True
 
     return latency_kpi_is_good_to_certify,fping_count_is_good_to_certify
+
 
 def show_header(koet_h_version, json_version,
                 estimated_runtime_str, max_avg_latency, fping_count):
@@ -738,7 +749,7 @@ def print_end_summary(s_avg_fp_err, a_avg_fp_err, lat_kpi_ok, fping_kpi_ok):
 
 def main():
     # Parsing input
-    max_avg_latency, fping_count = parse_arguments()
+    max_avg_latency, fping_count, check_packages = parse_arguments()
     max_max_latency = max_avg_latency * 2
     max_stddev_latency = max_avg_latency / 3
 
@@ -774,7 +785,11 @@ def main():
     test_ssh(hosts_dictionary)
 
     # Check packages are installed
-    host_packages_check(hosts_dictionary, packages_dictionary)
+    if check_packages:
+        host_packages_check(hosts_dictionary, packages_dictionary)
+    else:
+        print(YELLOW + "WARNING: " + NOCOLOR + "prerequisites not checked." +
+        " Please ensure than the tools required are installed in all nodes")
 
     # Run
     logdir = create_log_dir()
