@@ -21,11 +21,11 @@ The tool `koet.py` has two dependencies.
 
 ### Password less ssh between hosts
 
-For password less ssh, the process is simple if you google it. However, there is an automated script at [https://github.com/vikramkhatri/sshsetup](https://github.com/vikramkhatri/sshsetup) that you can use to set up password less ssh.
+For password less ssh, you can search on the web how to use it. There is an automated script at [https://github.com/vikramkhatri/sshsetup](https://github.com/vikramkhatri/sshsetup) that you can use to set up password less ssh.
 
 ### Install fping
 
-Check if `fping` is available or not. `which fping`
+Check if `fping` is available or not. `rpm -q fping`
 
 If `fping` is not install, install it from epel repo.
 
@@ -36,7 +36,7 @@ yum -y install fping
 
 Repeat on all hosts.
 
-### Prepaere hosts.json file 
+### Prepaere hosts.json file
 
 Edit `hosts.json` with the IP addresses of the nodes that will participate in the test. ** Names are not allowed.**
 
