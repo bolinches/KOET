@@ -1,6 +1,6 @@
 *** THIS TOOL IS NO LONGER MAINTAINED IN THIS REPOSITORY ***
 
-This work and other people work has been merged into [https://github.com/IBM/SpectrumScale_NETWORK_READINESS](SpectrumScale_NETWORK_READINESS)
+This work and other people work has been merged into [SpectrumScale_NETWORK_READINESS](https://github.com/IBM/SpectrumScale_NETWORK_READINESS)
 
 *** THIS TOOL IS NO LONGER MAINTAINED IN THIS REPOSITORY ***
 
