@@ -1,3 +1,9 @@
+*** THIS TOOL IS NO LONGER MAINTAINED IN THIS REPOSITORY ***
+
+This work and other people work has been merged into [https://github.com/IBM/SpectrumScale_NETWORK_READINESS](SpectrumScale_NETWORK_READINESS)
+
+*** THIS TOOL IS NO LONGER MAINTAINED IN THIS REPOSITORY ***
+
 #  Network latency check tool
 
 This runs a network fping tests across multiple nodes 1:1 and 1:n to obtain the mean average for all the nodes involved and compares it against a KPI.
